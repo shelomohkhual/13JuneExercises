@@ -72,7 +72,7 @@ describe "Hotel" do
     end
 
     it "should not mutate the original @name" do
-      expect(hotel.instance_variable_get(:@name)).to eq("Hotel Recode Grande")
+      expect(hotel.instance_variable_get(:@name)).to eq("hotel recode grande")
     end
   end
 
