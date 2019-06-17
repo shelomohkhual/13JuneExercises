@@ -1,4 +1,5 @@
 require "employee"
+require "byebug"
 
 class Startup
     attr_accessor :name,:funding,:salaries,:employees
@@ -26,19 +27,29 @@ class Startup
     end
     def pay_employee(employee)
         if @funding >= @salaries[employee.title]
-            Employee.pay(@salaries[employee.title])
+            employee.pay(@salaries[employee.title]) #Employee and employee
             @funding -= @salaries[employee.title]
         else
             error
         end
     end
     def payday
+        @employees.each do |employee|
+            pay_employee(employee)
+        end
     end
     def average_salary
+        @employees.map{|employee|@salaries[employee.title]}.sum/@employees.size
     end
     def close
+        @employees = []
+        @funding = 0
     end
-    def acquire
+    def acquire(another_startup)
+        @funding += another_startup.funding
+        @salaries=another_startup.salaries.merge@salaries
+        another_startup.employees.each {|employee| @employees.push employee}
+        another_startup.close
     end
 
 end
